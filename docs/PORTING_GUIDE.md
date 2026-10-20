@@ -18,8 +18,9 @@ Secondary reference for async API shapes and the shared OData layer: [`SAP/cloud
 | `cloudplatform/servlet-jakarta` | `Sap.Cloud.Sdk.AspNetCore` | ✅ replaced by middleware |
 | `cloudplatform/caching` | `…CloudPlatform.Caching` | ✅ ported |
 | `cloudplatform/resilience-api`, `resilience4j` | `…CloudPlatform.Resilience` (Polly) | ✅ ported |
-| `cloudplatform/cloudplatform-connectivity` | `…CloudPlatform.Connectivity` | ⏳ |
-| `cloudplatform/connectivity-oauth` | `…CloudPlatform.Connectivity.OAuth` | 🚧 token client done |
+| `cloudplatform/cloudplatform-connectivity` | `…CloudPlatform.Connectivity` | ✅ ported |
+| `cloudplatform/connectivity-oauth` | `…CloudPlatform.Connectivity.OAuth` | ✅ ported |
+| `cloudplatform/connectivity-apache-httpclient5` (+ CSRF from `-httpclient4`) | `…CloudPlatform.Connectivity.Http` | 🚧 in progress |
 | *(external)* SAP `token-client` | `…Connectivity.OAuth` → `OAuth2` namespace | ✅ ported (client-credentials, jwt-bearer) |
 | `cloudplatform/connectivity-destination-service` | `…CloudPlatform.Connectivity.DestinationService` | ⏳ |
 | `datamodel/openapi/*` | `Sap.Cloud.Sdk.DataModel.OpenApi*` | ⏳ |
@@ -162,6 +163,20 @@ public static class XyzAccessor
 | Rate limiter / bulkhead | resilience4j | custom Polly strategies (rate limiter ports `AtomicRateLimiter`) | not in Polly.Core |
 | Token client retry | `Thread.sleep` | `Task.Delay` with cancellation | async |
 | Token client correlation id | MDC correlation id | `Activity.Current.TraceId`, else a new GUID | .NET tracing |
+| RFC destinations | `RfcDestination`, `asRfc`/`isRfc` | omitted; RFC env-var destinations become plain `DefaultDestination`s | JCo out of scope |
+| `UriBuilder` (connectivity) | public class | not ported; `UriPathMerger` is static | `System.Uri` suffices |
+| Key and trust stores | `KeyStore` + BouncyCastle | `X509Certificate2Collection` (first entry carries the key) | guide §4 |
+| `IDestinationProperties.get` | `get` | `GetProperty`; typed `TryGet`/`TryGetAs`/`GetOrDefault` extensions | CA1716, value-type nullability |
+| Package-private connectivity members | package-private | public or `internal` + `InternalsVisibleTo` (e.g. `BuildInternal` for the OAuth assembly) | cross-assembly use |
+| `DefaultDestination`/`DefaultHttpDestination`/`Header` `ToString` | hide names with `password`/`secret`; print URI and header values | also hide keys, tokens, certificates, authorization; strip URI user info; hide header values | §8 |
+| Env-var destinations JSON | json-sanitizer repairs malformed JSON | `System.Text.Json` with comments and trailing commas | no equivalent |
+| `BtpServiceOptions` | enums implementing `OptionsEnhancer` | sealed classes with static instances; deprecated members omitted | .NET enums can't implement interfaces |
+| Destination header providers | synchronous `getHeaders` | additional `GetHeadersAsync` (default calls the sync method); HTTP pipeline always uses async; OAuth provider's sync `GetHeaders` blocks on the async one | token retrieval is I/O |
+| OAuth token request parameters | one map shared by all requests of a destination, mutated per request (`app_tid`) | copied per request | the Java map is a cross-tenant race |
+| OAuth user token tenant | `Token.getAppTid()` | `app_tid` claim, falling back to `zid` | no java-security `Token` type |
+| OAuth credential type `X509_ATTESTED` (ZTIS) | supported via `connectivity-ztis` | throws `DestinationAccessException` | ZTIS out of scope |
+| OAuth destination names | `clientId.hashCode()` | the same 31-based hash (`StableHash`) | `string.GetHashCode` is randomized |
+| OAuth token HTTP client | Apache HttpClient per identity | shared `SocketsHttpHandler`; one per certificate identity (mTLS) | connection reuse |
 
 Add a row whenever you deviate on purpose. Unrecorded deviations are bugs.
 
