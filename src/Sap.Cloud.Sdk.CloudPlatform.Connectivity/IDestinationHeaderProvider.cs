@@ -14,6 +14,19 @@ public interface IDestinationHeaderProvider
     /// <param name="requestContext">The destination and request URI.</param>
     /// <returns>The headers to add.</returns>
     IReadOnlyList<Header> GetHeaders(DestinationRequestContext requestContext);
+
+    /// <summary>Gets the headers for a request, asynchronously.</summary>
+    /// <remarks>
+    /// .NET addition. Providers that perform I/O (for example to fetch OAuth tokens) implement this method natively;
+    /// the HTTP pipeline always calls it. The default implementation calls <see cref="GetHeaders"/>.
+    /// </remarks>
+    /// <param name="requestContext">The destination and request URI.</param>
+    /// <param name="cancellationToken">Cancels the operation.</param>
+    /// <returns>The headers to add.</returns>
+    ValueTask<IReadOnlyList<Header>> GetHeadersAsync(
+        DestinationRequestContext requestContext,
+        CancellationToken cancellationToken = default) =>
+        ValueTask.FromResult(GetHeaders(requestContext));
 }
 
 /// <summary>The registry of <see cref="IDestinationHeaderProvider"/>s that apply to every HTTP destination.</summary>

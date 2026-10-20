@@ -52,6 +52,15 @@ public interface IHttpDestinationProperties : IDestination
     /// <returns>The headers (the values may be confidential).</returns>
     /// <exception cref="Exceptions.DestinationAccessException">A header could not be created.</exception>
     IReadOnlyList<Header> GetHeaders(Uri requestUri);
+
+    /// <summary>Gets the headers to send with a request, asynchronously.</summary>
+    /// <remarks>.NET addition; preferred over <see cref="GetHeaders(Uri)"/> because header providers may perform I/O.</remarks>
+    /// <param name="requestUri">The URI of the request.</param>
+    /// <param name="cancellationToken">Cancels the operation.</param>
+    /// <returns>The headers (the values may be confidential).</returns>
+    /// <exception cref="Exceptions.DestinationAccessException">A header could not be created.</exception>
+    ValueTask<IReadOnlyList<Header>> GetHeadersAsync(Uri requestUri, CancellationToken cancellationToken = default) =>
+        ValueTask.FromResult(GetHeaders(requestUri));
 }
 
 /// <summary>Convenience overloads for <see cref="IHttpDestinationProperties"/>.</summary>

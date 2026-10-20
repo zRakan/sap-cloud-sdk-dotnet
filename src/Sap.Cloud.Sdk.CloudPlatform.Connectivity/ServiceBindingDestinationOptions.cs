@@ -1,3 +1,4 @@
+using Sap.Cloud.Sdk.CloudPlatform.Resilience;
 using Sap.Cloud.Sdk.CloudPlatform.Connectivity.Exceptions;
 using Sap.Cloud.Sdk.CloudPlatform.ServiceBindings;
 using OnBehalf = Sap.Cloud.Sdk.CloudPlatform.Connectivity.OnBehalfOf;
@@ -151,7 +152,22 @@ public sealed class ServiceBindingDestinationOptions
             }
         }
 
-        // TODO(resilience): add ResilienceOptions : IOptionsEnhancer<ResilienceConfiguration> once the Resilience module
-        // provides ResilienceConfiguration (Java: ServiceBindingDestinationOptions.Options.ResilienceOptions).
+        /// <summary>Carries a resilience configuration, for example for token retrieval.</summary>
+        public sealed class ResilienceOptions : IOptionsEnhancer<ResilienceConfiguration>
+        {
+            private ResilienceOptions(ResilienceConfiguration value) => Value = value;
+
+            /// <inheritdoc/>
+            public ResilienceConfiguration Value { get; }
+
+            /// <summary>Creates the option.</summary>
+            /// <param name="configuration">The resilience configuration.</param>
+            /// <returns>The option.</returns>
+            public static ResilienceOptions Of(ResilienceConfiguration configuration)
+            {
+                ArgumentNullException.ThrowIfNull(configuration);
+                return new ResilienceOptions(configuration);
+            }
+        }
     }
 }
