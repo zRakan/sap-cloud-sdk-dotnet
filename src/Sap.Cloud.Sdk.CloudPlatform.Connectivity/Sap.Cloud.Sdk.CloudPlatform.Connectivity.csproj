@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Core\Sap.Cloud.Sdk.CloudPlatform.Core.csproj" />
+    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Security\Sap.Cloud.Sdk.CloudPlatform.Security.csproj" />
     <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Resilience\Sap.Cloud.Sdk.CloudPlatform.Resilience.csproj" />
   </ItemGroup>
 
