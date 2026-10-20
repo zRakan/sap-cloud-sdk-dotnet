@@ -32,8 +32,8 @@ With `IHttpClientFactory`, pass the named client instead:
 ```csharp
 services.AddHttpClient("my-service").AddSapDestination("MY_DESTINATION");
 // ...
-var adapter = OpenApiRequestAdapterFactory.Create(httpClientFactory.CreateClient("my-service"),
-    new Uri("https://placeholder.invalid")); // the destination handler replaces the base address per request
+// The client's placeholder base address is replaced with the destination URL on every request.
+var adapter = OpenApiRequestAdapterFactory.Create(httpClientFactory.CreateClient("my-service"));
 ```
 
 ## Differences to the Java SDK
