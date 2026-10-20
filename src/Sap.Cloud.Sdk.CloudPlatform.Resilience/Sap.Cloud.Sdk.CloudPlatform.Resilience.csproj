@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Sap.Cloud.Sdk.CloudPlatform.Resilience</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Caching\Sap.Cloud.Sdk.CloudPlatform.Caching.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Polly.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Sap.Cloud.Sdk.CloudPlatform.Resilience.Tests" />
+  </ItemGroup>
+
+</Project>
