@@ -8,6 +8,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Sap.Cloud.Sdk.DataModel.OData.Core\Sap.Cloud.Sdk.DataModel.OData.Core.csproj" />
   </ItemGroup>
 
