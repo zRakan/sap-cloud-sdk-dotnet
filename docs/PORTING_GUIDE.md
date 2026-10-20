@@ -23,7 +23,7 @@ Secondary reference for async API shapes and the shared OData layer: [`SAP/cloud
 | `cloudplatform/connectivity-apache-httpclient5` (+ CSRF from `-httpclient4`) | `…CloudPlatform.Connectivity.Http` | ✅ ported |
 | *(external)* SAP `token-client` | `…Connectivity.OAuth` → `OAuth2` namespace | ✅ ported (client-credentials, jwt-bearer) |
 | `cloudplatform/connectivity-destination-service` | `…CloudPlatform.Connectivity.DestinationService` | 🚧 in progress |
-| `datamodel/openapi/*` | `Sap.Cloud.Sdk.DataModel.OpenApi*` | ⏳ |
+| `datamodel/openapi/*` | `Sap.Cloud.Sdk.DataModel.OpenApi` | ✅ replaced by Kiota integration (see `docs/OPENAPI.md`) |
 | `datamodel/fluent-result` | `Sap.Cloud.Sdk.DataModel.FluentResult` | ✅ ported |
 | `datamodel/odata-client` | `Sap.Cloud.Sdk.DataModel.OData.Client` | ✅ ported |
 | `datamodel/odata/odata-core` (v2) | `Sap.Cloud.Sdk.DataModel.OData.Core` | 🚧 in progress |
@@ -197,6 +197,7 @@ public static class XyzAccessor
 | CF platform TLS | `SSLContext` from instance-identity files | client certificate via callback, reloaded when the files change | rotation |
 | Proxy credentials for HTTPS targets | `Proxy-Authorization` on `CONNECT` | header not sent on `CONNECT` | `SocketsHttpHandler` limitation |
 | `IHttpClientFactory` integration | n/a | `IHttpClientBuilder.AddSapDestination(...)`, destination looked up per request | .NET addition |
+| OpenAPI generator and runtime | Maven plugin over OpenAPI Generator + `openapi-core` `ApiClient` | Kiota-generated clients + `OpenApiRequestAdapterFactory` on the destination HTTP pipeline | maintained .NET generator; no Java at build time |
 
 Add a row whenever you deviate on purpose. Unrecorded deviations are bugs.
 
