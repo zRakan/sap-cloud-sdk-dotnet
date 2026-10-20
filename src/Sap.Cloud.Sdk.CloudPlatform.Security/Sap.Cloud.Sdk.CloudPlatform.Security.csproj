@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Sap.Cloud.Sdk.CloudPlatform.Security</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Core\Sap.Cloud.Sdk.CloudPlatform.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Sap.Cloud.Sdk.CloudPlatform.Security.Tests" />
+  </ItemGroup>
+
+</Project>

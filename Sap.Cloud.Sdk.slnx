@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Sap.Cloud.Sdk.AspNetCore/Sap.Cloud.Sdk.AspNetCore.csproj" />
+    <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Core/Sap.Cloud.Sdk.CloudPlatform.Core.csproj" />
+    <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Security/Sap.Cloud.Sdk.CloudPlatform.Security.csproj" />
+    <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Tenant/Sap.Cloud.Sdk.CloudPlatform.Tenant.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Sap.Cloud.Sdk.AspNetCore.Tests/Sap.Cloud.Sdk.AspNetCore.Tests.csproj" />
+    <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Core.Tests/Sap.Cloud.Sdk.CloudPlatform.Core.Tests.csproj" />
+    <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Security.Tests/Sap.Cloud.Sdk.CloudPlatform.Security.Tests.csproj" />
+    <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Tenant.Tests/Sap.Cloud.Sdk.CloudPlatform.Tenant.Tests.csproj" />
+  </Folder>
+</Solution>
