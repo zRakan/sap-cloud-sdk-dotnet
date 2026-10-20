@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Sap.Cloud.Sdk.DataModel.ODataV4.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sap.Cloud.Sdk.DataModel.OData.Client\Sap.Cloud.Sdk.DataModel.OData.Client.csproj" />
+    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Connectivity\Sap.Cloud.Sdk.CloudPlatform.Connectivity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Sap.Cloud.Sdk.DataModel.ODataV4.Core.Tests" />
+  </ItemGroup>
+
+</Project>

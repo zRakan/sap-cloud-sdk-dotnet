@@ -24,7 +24,11 @@ Secondary reference for async API shapes and the shared OData layer: [`SAP/cloud
 | *(external)* SAP `token-client` | `…Connectivity.OAuth` → `OAuth2` namespace | ✅ ported (client-credentials, jwt-bearer) |
 | `cloudplatform/connectivity-destination-service` | `…CloudPlatform.Connectivity.DestinationService` | ⏳ |
 | `datamodel/openapi/*` | `Sap.Cloud.Sdk.DataModel.OpenApi*` | ⏳ |
-| `datamodel/odata-client`, `odata/*`, `odata-v4/*` | `Sap.Cloud.Sdk.DataModel.OData*` | ⏳ |
+| `datamodel/fluent-result` | `Sap.Cloud.Sdk.DataModel.FluentResult` | ✅ ported |
+| `datamodel/odata-client` | `Sap.Cloud.Sdk.DataModel.OData.Client` | ✅ ported |
+| `datamodel/odata/odata-core` (v2) | `Sap.Cloud.Sdk.DataModel.OData.Core` | 🚧 in progress |
+| `datamodel/odata-v4/odata-v4-core` | `Sap.Cloud.Sdk.DataModel.ODataV4.Core` | 🚧 in progress |
+| OData generators (v2, v4) | `Sap.Cloud.Sdk.DataModel.OData.Generator` | ⏳ |
 
 **Out of scope:** RFC/JCo, SOAP, DWC/Megaclite, ZTIS, FIPS sample, Apache HttpClient 4 modules, the duplicated
 `odata-client-apache-httpclient5`, Spring archetypes, Maven plugins.
@@ -177,6 +181,13 @@ public static class XyzAccessor
 | OAuth credential type `X509_ATTESTED` (ZTIS) | supported via `connectivity-ztis` | throws `DestinationAccessException` | ZTIS out of scope |
 | OAuth destination names | `clientId.hashCode()` | the same 31-based hash (`StableHash`) | `string.GetHashCode` is randomized |
 | OAuth token HTTP client | Apache HttpClient per identity | shared `SocketsHttpHandler`; one per certificate identity (mTLS) | connection reuse |
+| fluent-result Gson types | `GsonResultObject`, `@ElementName` | `JsonResultObject`, `ElementNameAttribute`; `get`/`as` → `GetElement`/`AsType` | System.Text.Json; CA1716 |
+| OData expression names | `Collection…`, `ValueEnum`, `getOperator`, `Double/BigDecimal` strategies | `Array…`, `IValueEnumMember`, `FilterOperator`, `AsDouble/AsDecimal`; `And/Or/Not/In/Date` as extension methods | CA1711/CA1716/CA1720 |
+| OData request execution | `execute(HttpClient)` (Apache, sync) | `ExecuteAsync(HttpClient, CancellationToken)`; responses buffered unless `WithoutResponseBuffering()` | async; System.Net.Http |
+| OData CSRF failure details | `addSuppressed` | `Exception.Data["CsrfTokenRetrievalFailure"]` | no suppressed exceptions |
+| OData temporal precision | nanoseconds (`java.time`) | 100 ns (`DateTime`, `DateTimeOffset`, `TimeOnly`, `DateOnly`) | .NET types |
+| OData decimal literals | `BigDecimal` keeps scale (`1.1E+2`) | `decimal` prints `110` | no scale exponent in .NET |
+| OData JSON converters | Gson returns `null` for unparsable GUID/date | throws `JsonException` | fail fast |
 
 Add a row whenever you deviate on purpose. Unrecorded deviations are bugs.
 
