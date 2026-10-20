@@ -11,6 +11,8 @@
     <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Tenant/Sap.Cloud.Sdk.CloudPlatform.Tenant.csproj" />
     <Project Path="src/Sap.Cloud.Sdk.DataModel.FluentResult/Sap.Cloud.Sdk.DataModel.FluentResult.csproj" />
     <Project Path="src/Sap.Cloud.Sdk.DataModel.OData.Client/Sap.Cloud.Sdk.DataModel.OData.Client.csproj" />
+    <Project Path="src/Sap.Cloud.Sdk.DataModel.OData.Core/Sap.Cloud.Sdk.DataModel.OData.Core.csproj" />
+    <Project Path="src/Sap.Cloud.Sdk.DataModel.ODataV4.Core/Sap.Cloud.Sdk.DataModel.ODataV4.Core.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Sap.Cloud.Sdk.AspNetCore.Tests/Sap.Cloud.Sdk.AspNetCore.Tests.csproj" />
@@ -24,5 +26,7 @@
     <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Tenant.Tests/Sap.Cloud.Sdk.CloudPlatform.Tenant.Tests.csproj" />
     <Project Path="tests/Sap.Cloud.Sdk.DataModel.FluentResult.Tests/Sap.Cloud.Sdk.DataModel.FluentResult.Tests.csproj" />
     <Project Path="tests/Sap.Cloud.Sdk.DataModel.OData.Client.Tests/Sap.Cloud.Sdk.DataModel.OData.Client.Tests.csproj" />
+    <Project Path="tests/Sap.Cloud.Sdk.DataModel.OData.Core.Tests/Sap.Cloud.Sdk.DataModel.OData.Core.Tests.csproj" />
+    <Project Path="tests/Sap.Cloud.Sdk.DataModel.ODataV4.Core.Tests/Sap.Cloud.Sdk.DataModel.ODataV4.Core.Tests.csproj" />
   </Folder>
 </Solution>
