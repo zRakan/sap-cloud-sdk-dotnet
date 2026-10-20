@@ -9,8 +9,4 @@
     <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Connectivity\Sap.Cloud.Sdk.CloudPlatform.Connectivity.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <InternalsVisibleTo Include="Sap.Cloud.Sdk.DataModel.ODataV4.Core.Tests" />
-  </ItemGroup>
-
 </Project>
