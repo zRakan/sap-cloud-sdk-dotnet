@@ -26,7 +26,15 @@ public interface IValueBinary : IOperandSingle, IFilterableComparisonAbsolute
     /// <summary>Decodes a Base64 string; missing padding is tolerated.</summary>
     /// <param name="v">The string.</param>
     /// <returns>The bytes.</returns>
-    static byte[] DecodeFromString(string v) => Convert.FromBase64String(v.Length % 4 == 0 ? v : v.PadRight(v.Length + 4 - (v.Length % 4), '='));
+    static byte[] DecodeFromString(string v)
+    {
+        ArgumentNullException.ThrowIfNull(v);
+        // Accept both the standard and the URL-safe alphabet, with or without padding (as the Java SDK does).
+        var normalized = v.Replace('-', '+').Replace('_', '/');
+        return Convert.FromBase64String(normalized.Length % 4 == 0
+            ? normalized
+            : normalized.PadRight(normalized.Length + 4 - (normalized.Length % 4), '='));
+    }
 
     /// <summary>A filter expression that evaluates to a <c>Binary</c>.</summary>
     /// <param name="delegate">The underlying expression.</param>

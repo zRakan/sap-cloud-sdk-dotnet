@@ -26,16 +26,15 @@ public class Product : VdmMediaEntity<Product>
         .NavigationList("Shelf", static e => e._toShelf, static (e, v) => e._toShelf = v)
         .Build();
 
-    /// <summary>
-    /// Selector for all available fields of Product.
-    /// </summary>
-    public static readonly IProductSelectable AllFields = new ProductAllFields();
 
     /// <summary>
     /// The fields and navigation properties of Product to use with the available fluent helpers.
     /// </summary>
     public static class Fields
     {
+        /// <summary>Selects all fields of the entity (<c>$select=*</c>).</summary>
+        public static readonly IProductSelectable All = new ProductAllFields();
+
         /// <summary>Use with available fluent helpers to apply the <b>Id</b> field to query operations.</summary>
         public static readonly ProductField<int?> Id = new("Id");
 

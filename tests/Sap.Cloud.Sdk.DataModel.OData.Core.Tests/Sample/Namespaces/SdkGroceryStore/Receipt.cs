@@ -25,16 +25,15 @@ public class Receipt : VdmEntity<Receipt>
         .Navigation("Customer", static e => e._toCustomer, static (e, v) => e._toCustomer = v)
         .Build();
 
-    /// <summary>
-    /// Selector for all available fields of Receipt.
-    /// </summary>
-    public static readonly IReceiptSelectable AllFields = new ReceiptAllFields();
 
     /// <summary>
     /// The fields and navigation properties of Receipt to use with the available fluent helpers.
     /// </summary>
     public static class Fields
     {
+        /// <summary>Selects all fields of the entity (<c>$select=*</c>).</summary>
+        public static readonly IReceiptSelectable All = new ReceiptAllFields();
+
         /// <summary>Use with available fluent helpers to apply the <b>Id</b> field to query operations.</summary>
         public static readonly ReceiptField<int?> Id = new("Id");
 

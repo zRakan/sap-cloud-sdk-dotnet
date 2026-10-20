@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sap.Cloud.Sdk.DataModel.OData.Client\Sap.Cloud.Sdk.DataModel.OData.Client.csproj" />
-    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Connectivity\Sap.Cloud.Sdk.CloudPlatform.Connectivity.csproj" />
+    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Connectivity.Http\Sap.Cloud.Sdk.CloudPlatform.Connectivity.Http.csproj" />
   </ItemGroup>
 
   <ItemGroup>

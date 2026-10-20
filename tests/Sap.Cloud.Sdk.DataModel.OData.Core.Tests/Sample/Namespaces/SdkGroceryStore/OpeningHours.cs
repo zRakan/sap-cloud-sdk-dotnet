@@ -22,16 +22,15 @@ public class OpeningHours : VdmEntity<OpeningHours>
         .Property("CloseTime", static e => e._closeTime, static (e, v) => e._closeTime = v)
         .Build();
 
-    /// <summary>
-    /// Selector for all available fields of OpeningHours.
-    /// </summary>
-    public static readonly IOpeningHoursSelectable AllFields = new OpeningHoursAllFields();
 
     /// <summary>
     /// The fields and navigation properties of OpeningHours to use with the available fluent helpers.
     /// </summary>
     public static class Fields
     {
+        /// <summary>Selects all fields of the entity (<c>$select=*</c>).</summary>
+        public static readonly IOpeningHoursSelectable All = new OpeningHoursAllFields();
+
         /// <summary>Use with available fluent helpers to apply the <b>Id</b> field to query operations.</summary>
         public static readonly OpeningHoursField<int?> Id = new("Id");
 

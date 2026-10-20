@@ -149,9 +149,9 @@ public class ODataHttpResponse : IDisposable
         return GetEncoding().GetString(_buffer);
     }
 
-    /// <summary>Opens the body as stream. A buffered body can be opened repeatedly.</summary>
+    /// <summary>Opens the body as stream, for example to read binary media. A buffered body can be opened repeatedly.</summary>
     /// <returns>The stream, or <see langword="null"/> if there is no entity.</returns>
-    internal Stream? OpenContent()
+    public Stream? OpenContent()
     {
         if (_buffer is not null)
         {

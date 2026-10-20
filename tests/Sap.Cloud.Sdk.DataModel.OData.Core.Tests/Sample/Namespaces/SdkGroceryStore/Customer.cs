@@ -23,16 +23,15 @@ public class Customer : VdmEntity<Customer>
         .Navigation("Address", static e => e._toAddress, static (e, v) => e._toAddress = v)
         .Build();
 
-    /// <summary>
-    /// Selector for all available fields of Customer.
-    /// </summary>
-    public static readonly ICustomerSelectable AllFields = new CustomerAllFields();
 
     /// <summary>
     /// The fields and navigation properties of Customer to use with the available fluent helpers.
     /// </summary>
     public static class Fields
     {
+        /// <summary>Selects all fields of the entity (<c>$select=*</c>).</summary>
+        public static readonly ICustomerSelectable All = new CustomerAllFields();
+
         /// <summary>Use with available fluent helpers to apply the <b>Id</b> field to query operations.</summary>
         public static readonly CustomerField<int?> Id = new("Id");
 

@@ -22,16 +22,15 @@ public class Shelf : VdmEntity<Shelf>
         .NavigationList("Products", static e => e._toProducts, static (e, v) => e._toProducts = v)
         .Build();
 
-    /// <summary>
-    /// Selector for all available fields of Shelf.
-    /// </summary>
-    public static readonly IShelfSelectable AllFields = new ShelfAllFields();
 
     /// <summary>
     /// The fields and navigation properties of Shelf to use with the available fluent helpers.
     /// </summary>
     public static class Fields
     {
+        /// <summary>Selects all fields of the entity (<c>$select=*</c>).</summary>
+        public static readonly IShelfSelectable All = new ShelfAllFields();
+
         /// <summary>Use with available fluent helpers to apply the <b>Id</b> field to query operations.</summary>
         public static readonly ShelfField<int?> Id = new("Id");
 

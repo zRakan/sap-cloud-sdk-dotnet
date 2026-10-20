@@ -73,7 +73,7 @@ public class RequestBuildingTests
 
     [Fact]
     public void Read_SelectAll() =>
-        Assert.Equal("$select=*", _service.GetAllProduct().Select(Product.AllFields).ToRequest().Query());
+        Assert.Equal("$select=*", _service.GetAllProduct().Select(Product.Fields.All).ToRequest().Query());
 
     [Fact]
     public void Read_SelectAndExpand()
@@ -472,13 +472,18 @@ public class RequestBuildingTests
     // ---- execution target ----
 
     [Fact]
-    public async Task ExecuteAsync_WithDestination_FailsWithoutRegisteredProvider()
+    public async Task ExecuteAsync_WithDestination_UsesHttpClientAccessorAndDestinationAuthentication()
     {
         ODataHttpClientProvider.Reset();
-        var destination = Sap.Cloud.Sdk.CloudPlatform.Connectivity.DefaultHttpDestination.CreateBuilder("https://example.org").Build();
+        using var factory = Sap.Cloud.Sdk.TestSupport.RecordingDestinationHttpClientFactory.Install(_ =>
+            new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent("""{"d":{"results":[]}}""", System.Text.Encoding.UTF8, "application/json") });
+        var destination = Sap.Cloud.Sdk.CloudPlatform.Connectivity.DefaultHttpDestination.CreateBuilder("https://grocery.example.org/sap").BasicCredentials("user", "pass").Build();
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _service.GetAllProduct().ExecuteAsync(destination));
+        var products = await _service.GetAllProduct().ExecuteAsync(destination);
 
-        Assert.Contains("Sap.Cloud.Sdk.CloudPlatform.Connectivity.Http", exception.Message, StringComparison.Ordinal);
+        Assert.Empty(products);
+        var request = Assert.Single(factory.Requests);
+        Assert.StartsWith("https://grocery.example.org/sap/", request.Uri.AbsoluteUri, StringComparison.Ordinal);
+        Assert.Equal("Basic dXNlcjpwYXNz", request.Authorization);
     }
 }
