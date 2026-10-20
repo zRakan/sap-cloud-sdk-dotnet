@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/Sap.Cloud.Sdk.AspNetCore/Sap.Cloud.Sdk.AspNetCore.csproj" />
     <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Caching/Sap.Cloud.Sdk.CloudPlatform.Caching.csproj" />
+    <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Connectivity.OAuth/Sap.Cloud.Sdk.CloudPlatform.Connectivity.OAuth.csproj" />
     <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Connectivity/Sap.Cloud.Sdk.CloudPlatform.Connectivity.csproj" />
     <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Core/Sap.Cloud.Sdk.CloudPlatform.Core.csproj" />
     <Project Path="src/Sap.Cloud.Sdk.CloudPlatform.Resilience/Sap.Cloud.Sdk.CloudPlatform.Resilience.csproj" />
@@ -13,6 +14,7 @@
   <Folder Name="/tests/">
     <Project Path="tests/Sap.Cloud.Sdk.AspNetCore.Tests/Sap.Cloud.Sdk.AspNetCore.Tests.csproj" />
     <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Caching.Tests/Sap.Cloud.Sdk.CloudPlatform.Caching.Tests.csproj" />
+    <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Connectivity.OAuth.Tests/Sap.Cloud.Sdk.CloudPlatform.Connectivity.OAuth.Tests.csproj" />
     <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Connectivity.Tests/Sap.Cloud.Sdk.CloudPlatform.Connectivity.Tests.csproj" />
     <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Core.Tests/Sap.Cloud.Sdk.CloudPlatform.Core.Tests.csproj" />
     <Project Path="tests/Sap.Cloud.Sdk.CloudPlatform.Resilience.Tests/Sap.Cloud.Sdk.CloudPlatform.Resilience.Tests.csproj" />
