@@ -20,16 +20,15 @@ public class FloorPlan : VdmEntity<FloorPlan>
         .Property("ImageUri", static e => e._imageUri, static (e, v) => e._imageUri = v)
         .Build();
 
-    /// <summary>
-    /// Selector for all available fields of FloorPlan.
-    /// </summary>
-    public static readonly IFloorPlanSelectable AllFields = new FloorPlanAllFields();
 
     /// <summary>
     /// The fields and navigation properties of FloorPlan to use with the available fluent helpers.
     /// </summary>
     public static class Fields
     {
+        /// <summary>Selects all fields of the entity (<c>$select=*</c>).</summary>
+        public static readonly IFloorPlanSelectable All = new FloorPlanAllFields();
+
         /// <summary>Use with available fluent helpers to apply the <b>Id</b> field to query operations.</summary>
         public static readonly FloorPlanField<int?> Id = new("Id");
 

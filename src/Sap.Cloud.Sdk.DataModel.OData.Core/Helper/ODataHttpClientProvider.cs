@@ -7,16 +7,13 @@ namespace Sap.Cloud.Sdk.DataModel.OData.Helper;
 /// destination.
 /// </summary>
 /// <remarks>
-/// Replaces <c>HttpClientAccessor.getHttpClient(destination)</c>. This module does not depend on the HTTP layer of the Cloud Platform
-/// connectivity: <c>Sap.Cloud.Sdk.CloudPlatform.Connectivity.Http</c> sets <see cref="Provider"/> when it is referenced. The default
-/// throws <see cref="InvalidOperationException"/>. Applications can also pass an <see cref="HttpClient"/> to <c>ExecuteAsync</c> directly.
+/// Defaults to <see cref="HttpClientAccessor.GetHttpClient(IHttpDestinationProperties)"/>, like Java's
+/// <c>HttpClientAccessor.getHttpClient(destination)</c>. Applications can also pass an <see cref="HttpClient"/> to
+/// <c>ExecuteAsync</c> directly.
 /// </remarks>
 public static class ODataHttpClientProvider
 {
-    private static readonly Func<IHttpDestinationProperties, HttpClient> Default = static _ =>
-        throw new InvalidOperationException(
-            "No HttpClient provider is registered for destinations. Reference Sap.Cloud.Sdk.CloudPlatform.Connectivity.Http "
-            + "(which registers the provider) or set ODataHttpClientProvider.Provider, or pass an HttpClient to ExecuteAsync.");
+    private static readonly Func<IHttpDestinationProperties, HttpClient> Default = HttpClientAccessor.GetHttpClient;
 
     private static volatile Func<IHttpDestinationProperties, HttpClient>? _provider;
 
@@ -31,7 +28,7 @@ public static class ODataHttpClientProvider
         }
     }
 
-    /// <summary>Restores the default provider, which throws <see cref="InvalidOperationException"/>.</summary>
+    /// <summary>Restores the default provider, <see cref="HttpClientAccessor.GetHttpClient(IHttpDestinationProperties)"/>.</summary>
     public static void Reset() => _provider = null;
 }
 

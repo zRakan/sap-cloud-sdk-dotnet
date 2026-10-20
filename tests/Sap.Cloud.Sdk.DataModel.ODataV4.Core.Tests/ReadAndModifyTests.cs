@@ -486,21 +486,18 @@ public class ReadAndModifyTests
     }
 
     [Fact]
-    public async Task ExecuteWithDestination_FailsWithAHintWithoutRegisteredProvider()
+    public async Task ExecuteWithDestination_UsesHttpClientAccessorAndDestinationAuthentication()
     {
-        var destination = DefaultHttpDestination.CreateBuilder("http://localhost:8080").Build();
-        var previous = ODataHttpClientProvider.Provider;
-        ODataHttpClientProvider.Provider = null!;
-        try
-        {
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => Service.GetAllPeople().ExecuteAsync(destination));
+        using var factory = Sap.Cloud.Sdk.TestSupport.RecordingDestinationHttpClientFactory.Install(_ =>
+            new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent("""{"value":[]}""", System.Text.Encoding.UTF8, "application/json") });
+        var destination = DefaultHttpDestination.CreateBuilder("https://trippin.example.com/api").BasicCredentials("user", "pass").Build();
 
-            Assert.Contains("Sap.Cloud.Sdk.CloudPlatform.Connectivity.Http", exception.Message, StringComparison.Ordinal);
-        }
-        finally
-        {
-            ODataHttpClientProvider.Provider = previous;
-        }
+        var people = await Service.GetAllPeople().ExecuteAsync(destination);
+
+        Assert.Empty(people);
+        var request = Assert.Single(factory.Requests);
+        Assert.StartsWith("https://trippin.example.com/api/", request.Uri.AbsoluteUri, StringComparison.Ordinal);
+        Assert.Equal("Basic dXNlcjpwYXNz", request.Authorization);
     }
 
     [Fact]

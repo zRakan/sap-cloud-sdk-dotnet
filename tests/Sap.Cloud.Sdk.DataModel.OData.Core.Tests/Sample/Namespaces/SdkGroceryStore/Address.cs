@@ -26,16 +26,15 @@ public class Address : VdmEntity<Address>
         .Property("Longitude", static e => e._longitude, static (e, v) => e._longitude = v)
         .Build();
 
-    /// <summary>
-    /// Selector for all available fields of Address.
-    /// </summary>
-    public static readonly IAddressSelectable AllFields = new AddressAllFields();
 
     /// <summary>
     /// The fields and navigation properties of Address to use with the available fluent helpers.
     /// </summary>
     public static class Fields
     {
+        /// <summary>Selects all fields of the entity (<c>$select=*</c>).</summary>
+        public static readonly IAddressSelectable All = new AddressAllFields();
+
         /// <summary>Use with available fluent helpers to apply the <b>Id</b> field to query operations.</summary>
         public static readonly AddressField<int?> Id = new("Id");
 

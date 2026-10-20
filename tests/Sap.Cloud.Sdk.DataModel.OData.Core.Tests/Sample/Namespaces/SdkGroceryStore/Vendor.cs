@@ -22,16 +22,15 @@ public class Vendor : VdmEntity<Vendor>
         .Navigation("Address", static e => e._toAddress, static (e, v) => e._toAddress = v)
         .Build();
 
-    /// <summary>
-    /// Selector for all available fields of Vendor.
-    /// </summary>
-    public static readonly IVendorSelectable AllFields = new VendorAllFields();
 
     /// <summary>
     /// The fields and navigation properties of Vendor to use with the available fluent helpers.
     /// </summary>
     public static class Fields
     {
+        /// <summary>Selects all fields of the entity (<c>$select=*</c>).</summary>
+        public static readonly IVendorSelectable All = new VendorAllFields();
+
         /// <summary>Use with available fluent helpers to apply the <b>Id</b> field to query operations.</summary>
         public static readonly VendorField<int?> Id = new("Id");
 
