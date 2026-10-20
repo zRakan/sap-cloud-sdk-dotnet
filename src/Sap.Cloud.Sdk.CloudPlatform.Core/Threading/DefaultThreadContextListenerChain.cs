@@ -21,6 +21,7 @@ public sealed class DefaultThreadContextListenerChain
     /// <summary>Creates a chain containing the current default listeners.</summary>
     public DefaultThreadContextListenerChain()
     {
+        SdkModules.EnsureLoaded();
         lock (DefaultsLock)
         {
             _listeners = new Dictionary<int, IThreadContextListener>(Defaults);
@@ -57,6 +58,7 @@ public sealed class DefaultThreadContextListenerChain
     /// <returns>The listeners.</returns>
     public static IReadOnlyList<IThreadContextListener> GetDefaultListeners()
     {
+        SdkModules.EnsureLoaded();
         lock (DefaultsLock)
         {
             return [.. Defaults.Values.OrderBy(l => l.Priority)];
