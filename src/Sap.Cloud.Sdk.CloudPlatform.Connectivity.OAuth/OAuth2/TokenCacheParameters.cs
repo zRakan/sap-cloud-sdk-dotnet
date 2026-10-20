@@ -7,7 +7,11 @@ namespace Sap.Cloud.Sdk.CloudPlatform.Connectivity.OAuth2;
 /// A cached token is renewed once its remaining lifetime is shorter than this value.
 /// </param>
 public sealed record TokenCacheParameters(TimeSpan CacheDuration, int CacheSize, TimeSpan TokenExpirationDelta)
+    : IOptionsEnhancer<TokenCacheParameters>
 {
+    /// <summary>This instance; lets the parameters be passed as a service binding destination option.</summary>
+    public TokenCacheParameters Value => this;
+
     /// <summary>The SDK defaults: one hour, 1000 entries, 30 seconds.</summary>
     public static TokenCacheParameters Default { get; } = new(TimeSpan.FromHours(1), 1000, TimeSpan.FromSeconds(30));
 
