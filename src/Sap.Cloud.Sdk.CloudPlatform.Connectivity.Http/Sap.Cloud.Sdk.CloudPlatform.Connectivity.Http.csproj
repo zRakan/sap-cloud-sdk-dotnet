@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Connectivity\Sap.Cloud.Sdk.CloudPlatform.Connectivity.csproj" />
+    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Caching\Sap.Cloud.Sdk.CloudPlatform.Caching.csproj" />
   </ItemGroup>
 
   <ItemGroup>
