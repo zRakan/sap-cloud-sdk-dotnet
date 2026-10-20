@@ -3,7 +3,11 @@ using Sap.Cloud.Sdk.CloudPlatform;
 
 namespace Sap.Cloud.Sdk.DataModel.OData.Client.Request;
 
-// MOVE: connectivity http
+// These CSRF types intentionally stay separate from the public ones in Sap.Cloud.Sdk.CloudPlatform.Connectivity.Http:
+// the OData client resolves the service path exactly like its OData requests (HttpRequestFactory.ResolveUri, keeping the
+// base address path), whereas the HTTP layer's retriever relies on HttpClient's own resolution, which drops the base path
+// for absolute paths when used with a plain HttpClient.
+
 /// <summary>A CSRF token.</summary>
 /// <param name="Token">The token value.</param>
 internal sealed record CsrfToken(string Token)
@@ -13,7 +17,6 @@ internal sealed record CsrfToken(string Token)
     public override string ToString() => "CsrfToken(Token=(hidden))";
 }
 
-// MOVE: connectivity http
 /// <summary>Thrown when a CSRF token cannot be retrieved.</summary>
 internal sealed class CsrfTokenRetrievalException : Exception
 {
@@ -28,7 +31,6 @@ internal sealed class CsrfTokenRetrievalException : Exception
     }
 }
 
-// MOVE: connectivity http
 /// <summary>Allows a request URI to be merged with query parameters that the HTTP client adds to every request.</summary>
 internal interface IUriQueryMerger
 {
@@ -38,7 +40,6 @@ internal interface IUriQueryMerger
     Uri MergeRequestUri(Uri requestUri);
 }
 
-// MOVE: connectivity http
 /// <summary>Retrieves CSRF tokens from a service.</summary>
 internal interface ICsrfTokenRetriever
 {
@@ -58,7 +59,6 @@ internal interface ICsrfTokenRetriever
         CancellationToken cancellationToken = default);
 }
 
-// MOVE: connectivity http
 /// <summary>A retriever that is disabled: requests made with it do not fetch a token.</summary>
 internal sealed class DisabledCsrfTokenRetriever : ICsrfTokenRetriever
 {
@@ -74,7 +74,6 @@ internal sealed class DisabledCsrfTokenRetriever : ICsrfTokenRetriever
         throw new InvalidOperationException("The disabled CSRF token retriever cannot retrieve an CSRF token.");
 }
 
-// MOVE: connectivity http
 /// <summary>
 /// Retrieves a CSRF token with an HTTP <c>HEAD</c> request to the service path carrying <c>x-csrf-token: fetch</c>.
 /// </summary>
