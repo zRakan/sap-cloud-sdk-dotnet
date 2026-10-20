@@ -1,10 +1,7 @@
-using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sap.Cloud.Sdk.CloudPlatform;
-using Sap.Cloud.Sdk.CloudPlatform.Security;
-using Sap.Cloud.Sdk.CloudPlatform.Tenant;
 
 namespace Sap.Cloud.Sdk.AspNetCore;
 
@@ -29,10 +26,8 @@ public static class ApplicationBuilderExtensions
             SdkLogging.LoggerFactory = loggerFactory;
         }
 
-        // Register the default thread context listeners of all SDK modules now, so that every request is set up the
-        // same way regardless of which accessor the application happens to touch first.
-        RuntimeHelpers.RunModuleConstructor(typeof(AuthTokenAccessor).Module.ModuleHandle);
-        RuntimeHelpers.RunModuleConstructor(typeof(TenantAccessor).Module.ModuleHandle);
+        // Load all deployed SDK modules now, so every request is set up the same way.
+        SdkModules.EnsureLoaded();
 
         return app.UseMiddleware<SapCloudSdkMiddleware>();
     }

@@ -1,3 +1,4 @@
+using Sap.Cloud.Sdk.CloudPlatform;
 using System.Collections.Immutable;
 
 namespace Sap.Cloud.Sdk.CloudPlatform.Connectivity;
@@ -37,7 +38,14 @@ public static class DestinationHeaderProviders
     private static ImmutableList<IDestinationHeaderProvider> _providers = [];
 
     /// <summary>The registered providers, in registration order.</summary>
-    public static IReadOnlyList<IDestinationHeaderProvider> Registered => _providers;
+    public static IReadOnlyList<IDestinationHeaderProvider> Registered
+    {
+        get
+        {
+            SdkModules.EnsureLoaded();
+            return _providers;
+        }
+    }
 
     /// <summary>Registers a provider for all destinations. Registering the same instance twice has no effect.</summary>
     /// <param name="provider">The provider.</param>

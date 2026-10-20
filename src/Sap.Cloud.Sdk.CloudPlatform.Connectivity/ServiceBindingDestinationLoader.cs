@@ -39,13 +39,20 @@ public static class ServiceBindingDestinationLoader
     private static ImmutableList<IServiceBindingDestinationLoader> _defaultLoaders = [];
 
     /// <summary>The loaders registered for the default chain.</summary>
-    public static IReadOnlyList<IServiceBindingDestinationLoader> DefaultLoaders => _defaultLoaders;
+    public static IReadOnlyList<IServiceBindingDestinationLoader> DefaultLoaders
+    {
+        get
+        {
+            SdkModules.EnsureLoaded();
+            return _defaultLoaders;
+        }
+    }
 
     /// <summary>
     /// The chain of all registered loaders. It reads the registry on every call, so loaders registered later are used.
     /// </summary>
     public static IServiceBindingDestinationLoader DefaultLoaderChain { get; } =
-        new DefaultServiceBindingDestinationLoaderChain(() => _defaultLoaders);
+        new DefaultServiceBindingDestinationLoaderChain(() => DefaultLoaders);
 
     /// <summary>Creates a chain of the given loaders.</summary>
     /// <param name="delegateLoaders">The loaders, in the order in which they are tried.</param>

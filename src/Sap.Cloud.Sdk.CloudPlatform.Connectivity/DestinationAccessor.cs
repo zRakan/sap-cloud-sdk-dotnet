@@ -229,6 +229,7 @@ public static class DestinationAccessor
 
     private static DestinationLoaderChain CreateDefaultLoader()
     {
+        SdkModules.EnsureLoaded();
         if (Log.IsEnabled(LogLevel.Information))
         {
             Log.LogInformation(

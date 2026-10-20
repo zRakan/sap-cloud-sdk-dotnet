@@ -22,7 +22,7 @@ Secondary reference for async API shapes and the shared OData layer: [`SAP/cloud
 | `cloudplatform/connectivity-oauth` | `…CloudPlatform.Connectivity.OAuth` | ✅ ported |
 | `cloudplatform/connectivity-apache-httpclient5` (+ CSRF from `-httpclient4`) | `…CloudPlatform.Connectivity.Http` | ✅ ported |
 | *(external)* SAP `token-client` | `…Connectivity.OAuth` → `OAuth2` namespace | ✅ ported (client-credentials, jwt-bearer) |
-| `cloudplatform/connectivity-destination-service` | `…CloudPlatform.Connectivity.DestinationService` | 🚧 in progress |
+| `cloudplatform/connectivity-destination-service` | `…CloudPlatform.Connectivity.DestinationService` | ✅ ported |
 | `datamodel/openapi/*` | `Sap.Cloud.Sdk.DataModel.OpenApi` | ✅ replaced by Kiota integration (see `docs/OPENAPI.md`) |
 | `datamodel/fluent-result` | `Sap.Cloud.Sdk.DataModel.FluentResult` | ✅ ported |
 | `datamodel/odata-client` | `Sap.Cloud.Sdk.DataModel.OData.Client` | ✅ ported |
@@ -84,7 +84,7 @@ Thread-context property keys use the .NET full type name of the listener plus th
 | `URI` | `Uri` |
 | `List<T>` / `Map<K,V>` (returned) | `IReadOnlyList<T>` / `IReadOnlyDictionary<K,V>` |
 | Guava `Multimap` | `OrderedDictionary<K, V[]>` or `ILookup` |
-| `ServiceLoader` / `FacadeLocator` / `META-INF/services` | settable static facade property with a default, plus a `[ModuleInitializer]` for registrations (see `ModuleInitializer.cs`) |
+| `ServiceLoader` / `FacadeLocator` / `META-INF/services` | settable static facade property with a default, plus a `[ModuleInitializer]` for registrations (see `ModuleInitializer.cs`). Add the assembly to `SdkModules.ModulesWithRegistrations`, and call `SdkModules.EnsureLoaded()` at the start of any registry read, so modules whose types are never referenced still register. |
 | `ThreadLocal` | `AsyncLocal<T>` (already wrapped by `IThreadContext`; do not add new ones) |
 | `ThreadContextExecutors`, `ThreadContextExecutorService` | not needed: the context flows into `Task.Run`, `await` and the thread pool |
 | Jackson / Gson | `System.Text.Json` |
@@ -198,6 +198,13 @@ public static class XyzAccessor
 | Proxy credentials for HTTPS targets | `Proxy-Authorization` on `CONNECT` | header not sent on `CONNECT` | `SocketsHttpHandler` limitation |
 | `IHttpClientFactory` integration | n/a | `IHttpClientBuilder.AddSapDestination(...)`, destination looked up per request | .NET addition |
 | OpenAPI generator and runtime | Maven plugin over OpenAPI Generator + `openapi-core` `ApiClient` | Kiota-generated clients + `OpenApiRequestAdapterFactory` on the destination HTTP pipeline | maintained .NET generator; no Java at build time |
+| Destination service `getAllDestinations` | `tryGetAllDestinations` (deprecated) | `TryGetAllDestinationsAsync` returning `Result<IReadOnlyList<IDestination>>`, not obsolete | async |
+| Destination service JKS stores | key and trust stores | JKS trust stores read for certificates only; JKS key stores unsupported (`DestinationAccessException`) | no JKS in .NET |
+| Destination service caches | Caffeine with eviction | `MemoryCache`; a size limit rejects new entries instead of evicting; zero expiry stores nothing; per-key `SemaphoreSlim` locks (30 min sliding) | `MemoryCache` model |
+| Destination service pre-lookup check failure | throws | failed `Result` | consistent `Try…` semantics |
+| `TransparentProxy.register` | sync | `RegisterAsync` only | opens a TCP connection |
+| Destination-service request custom headers | map order | sorted by key | deterministic |
+| Module discovery | `ServiceLoader` scans the classpath | `SdkModules.EnsureLoaded()` loads deployed SDK assemblies by name before first registry use | .NET loads assemblies lazily |
 
 Add a row whenever you deviate on purpose. Unrecorded deviations are bugs.
 
