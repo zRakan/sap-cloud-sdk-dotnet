@@ -20,9 +20,9 @@ Secondary reference for async API shapes and the shared OData layer: [`SAP/cloud
 | `cloudplatform/resilience-api`, `resilience4j` | `…CloudPlatform.Resilience` (Polly) | ✅ ported |
 | `cloudplatform/cloudplatform-connectivity` | `…CloudPlatform.Connectivity` | ✅ ported |
 | `cloudplatform/connectivity-oauth` | `…CloudPlatform.Connectivity.OAuth` | ✅ ported |
-| `cloudplatform/connectivity-apache-httpclient5` (+ CSRF from `-httpclient4`) | `…CloudPlatform.Connectivity.Http` | 🚧 in progress |
+| `cloudplatform/connectivity-apache-httpclient5` (+ CSRF from `-httpclient4`) | `…CloudPlatform.Connectivity.Http` | ✅ ported |
 | *(external)* SAP `token-client` | `…Connectivity.OAuth` → `OAuth2` namespace | ✅ ported (client-credentials, jwt-bearer) |
-| `cloudplatform/connectivity-destination-service` | `…CloudPlatform.Connectivity.DestinationService` | ⏳ |
+| `cloudplatform/connectivity-destination-service` | `…CloudPlatform.Connectivity.DestinationService` | 🚧 in progress |
 | `datamodel/openapi/*` | `Sap.Cloud.Sdk.DataModel.OpenApi*` | ⏳ |
 | `datamodel/fluent-result` | `Sap.Cloud.Sdk.DataModel.FluentResult` | ✅ ported |
 | `datamodel/odata-client` | `Sap.Cloud.Sdk.DataModel.OData.Client` | ✅ ported |
@@ -188,6 +188,15 @@ public static class XyzAccessor
 | OData temporal precision | nanoseconds (`java.time`) | 100 ns (`DateTime`, `DateTimeOffset`, `TimeOnly`, `DateOnly`) | .NET types |
 | OData decimal literals | `BigDecimal` keeps scale (`1.1E+2`) | `decimal` prints `110` | no scale exponent in .NET |
 | OData JSON converters | Gson returns `null` for unparsable GUID/date | throws `JsonException` | fail fast |
+| HTTP client cache | accessor caches whole clients; `setHttpClientCache` | default factory caches only the primary `SocketsHttpHandler` (1 h sliding, `CacheManager`), delegating handlers per call; evicted handlers disposed after timeout + 1 min | per-call destination instance |
+| Destination header merge | `addHeader` appends everything | multi-valued headers appended; for single-valued and content headers the caller's value wins | `HttpClient` can't send them twice |
+| Absolute request URIs | override the destination path | same host → treated as relative; other host → `DestinationPathsNotMergeableException` | `BaseAddress` resolution happens before handlers |
+| CSRF `HEAD` | sent without the request's headers | carries the request's (non-content) headers incl. destination auth | SAP systems need `Authorization` on the `HEAD` |
+| HTTP retry strategy, TLS `Upgrade`, `maxConnectionsTotal` | present | not ported; use the Resilience module for retry | no `SocketsHttpHandler` equivalent |
+| TLS protocol versions | any JDK protocol name | `TLSv1.2`, `TLSv1.3`, `TLS` only | TLS 1.0/1.1 obsolete |
+| CF platform TLS | `SSLContext` from instance-identity files | client certificate via callback, reloaded when the files change | rotation |
+| Proxy credentials for HTTPS targets | `Proxy-Authorization` on `CONNECT` | header not sent on `CONNECT` | `SocketsHttpHandler` limitation |
+| `IHttpClientFactory` integration | n/a | `IHttpClientBuilder.AddSapDestination(...)`, destination looked up per request | .NET addition |
 
 Add a row whenever you deviate on purpose. Unrecorded deviations are bugs.
 
