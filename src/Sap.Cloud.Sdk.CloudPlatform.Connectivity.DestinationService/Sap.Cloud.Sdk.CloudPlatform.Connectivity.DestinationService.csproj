@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Sap.Cloud.Sdk.CloudPlatform.Connectivity</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Connectivity.OAuth\Sap.Cloud.Sdk.CloudPlatform.Connectivity.OAuth.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Sap.Cloud.Sdk.CloudPlatform.Connectivity.DestinationService.Tests" />
+  </ItemGroup>
+
+</Project>
