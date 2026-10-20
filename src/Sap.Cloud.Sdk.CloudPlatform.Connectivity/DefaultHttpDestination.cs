@@ -248,6 +248,43 @@ public sealed class DefaultHttpDestination : IHttpDestination, IEquatable<Defaul
         return result;
     }
 
+    /// <summary>Asynchronous variant of <see cref="GetHeadersFromHeaderProviders"/>.</summary>
+    /// <param name="destination">The destination.</param>
+    /// <param name="requestUri">The request URI.</param>
+    /// <param name="customHeaderProviders">The destination's own providers.</param>
+    /// <param name="registeredHeaderProviders">The globally registered providers.</param>
+    /// <param name="cancellationToken">Cancels the operation.</param>
+    /// <returns>The headers.</returns>
+    public static async ValueTask<IReadOnlyList<Header>> GetHeadersFromHeaderProvidersAsync(
+        IHttpDestination destination,
+        Uri requestUri,
+        IReadOnlyList<IDestinationHeaderProvider> customHeaderProviders,
+        IReadOnlyList<IDestinationHeaderProvider> registeredHeaderProviders,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(destination);
+        ArgumentNullException.ThrowIfNull(requestUri);
+        ArgumentNullException.ThrowIfNull(customHeaderProviders);
+        ArgumentNullException.ThrowIfNull(registeredHeaderProviders);
+
+        var requestContext = new DestinationRequestContext(destination, requestUri);
+        var result = new List<Header>();
+        foreach (var provider in customHeaderProviders.Concat(registeredHeaderProviders))
+        {
+            try
+            {
+                result.AddRange(await provider.GetHeadersAsync(requestContext, cancellationToken).ConfigureAwait(false));
+            }
+            catch (Exception e) when (e is not OperationCanceledException)
+            {
+                throw new DestinationAccessException(
+                    $"Header provider '{provider.GetType().Name}' threw an exception: {e.Message}",
+                    e);
+            }
+        }
+        return result;
+    }
+
     /// <inheritdoc/>
     public object? GetProperty(string key) => _baseProperties.GetProperty(key);
 
@@ -255,8 +292,14 @@ public sealed class DefaultHttpDestination : IHttpDestination, IEquatable<Defaul
     public IReadOnlyList<Header> GetHeaders(Uri requestUri)
     {
         ArgumentNullException.ThrowIfNull(requestUri);
+        return CombineHeaders(
+            GetHeadersFromHeaderProviders(this, requestUri, _customHeaderProviders, _registeredHeaderProviders));
+    }
+
+    private List<Header> CombineHeaders(IReadOnlyList<Header> providerHeaders)
+    {
         var allHeaders = new List<Header>(CustomHeaders);
-        allHeaders.AddRange(GetHeadersFromHeaderProviders(this, requestUri, _customHeaderProviders, _registeredHeaderProviders));
+        allHeaders.AddRange(providerHeaders);
         allHeaders.AddRange(_headersFromProperties);
         if (!allHeaders.Any(h => string.Equals(h.Name, "Authorization", StringComparison.OrdinalIgnoreCase)))
         {
@@ -267,6 +310,15 @@ public sealed class DefaultHttpDestination : IHttpDestination, IEquatable<Defaul
             allHeaders.AddRange(_proxyAuthorizationHeaders);
         }
         return allHeaders;
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask<IReadOnlyList<Header>> GetHeadersAsync(Uri requestUri, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(requestUri);
+        var providerHeaders = await GetHeadersFromHeaderProvidersAsync(
+            this, requestUri, _customHeaderProviders, _registeredHeaderProviders, cancellationToken).ConfigureAwait(false);
+        return CombineHeaders(providerHeaders);
     }
 
     /// <summary>Creates a builder initialized with this destination.</summary>
