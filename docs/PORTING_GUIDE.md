@@ -16,10 +16,11 @@ Secondary reference for async API shapes and the shared OData layer: [`SAP/cloud
 | `cloudplatform/security` | `Sap.Cloud.Sdk.CloudPlatform.Security` | ✅ ported |
 | `cloudplatform/tenant` | `Sap.Cloud.Sdk.CloudPlatform.Tenant` | ✅ ported |
 | `cloudplatform/servlet-jakarta` | `Sap.Cloud.Sdk.AspNetCore` | ✅ replaced by middleware |
-| `cloudplatform/caching` | `…CloudPlatform.Caching` | ⏳ |
-| `cloudplatform/resilience-api`, `resilience4j` | `…CloudPlatform.Resilience` (Polly) | ⏳ |
+| `cloudplatform/caching` | `…CloudPlatform.Caching` | ✅ ported |
+| `cloudplatform/resilience-api`, `resilience4j` | `…CloudPlatform.Resilience` (Polly) | ✅ ported |
 | `cloudplatform/cloudplatform-connectivity` | `…CloudPlatform.Connectivity` | ⏳ |
-| `cloudplatform/connectivity-oauth` | `…CloudPlatform.Connectivity.OAuth` | ⏳ |
+| `cloudplatform/connectivity-oauth` | `…CloudPlatform.Connectivity.OAuth` | 🚧 token client done |
+| *(external)* SAP `token-client` | `…Connectivity.OAuth` → `OAuth2` namespace | ✅ ported (client-credentials, jwt-bearer) |
 | `cloudplatform/connectivity-destination-service` | `…CloudPlatform.Connectivity.DestinationService` | ⏳ |
 | `datamodel/openapi/*` | `Sap.Cloud.Sdk.DataModel.OpenApi*` | ⏳ |
 | `datamodel/odata-client`, `odata/*`, `odata-v4/*` | `Sap.Cloud.Sdk.DataModel.OData*` | ⏳ |
@@ -148,6 +149,19 @@ public static class XyzAccessor
 | `LocaleAccessor` | present | omitted | `CultureInfo.CurrentCulture` already flows per request |
 | Service bindings | full SAP library (several K8s layouts, Spring properties) | `VCAP_SERVICES` + servicebinding.io with `.metadata` | add layouts when a real deployment needs them |
 | `ThreadContextExecutor` | always wraps exceptions | `WithoutExceptionWrapping()` opt-out | middleware must not change exception types |
+| Cache keys | `GenericCacheKey`, `CacheKey`, `SerializableCacheKey` | single `CacheKey` | no serialization needed |
+| `CacheKey.ToString`, `CacheConfiguration.ToString` | print components / parameters | print only their count | components may hold secrets |
+| `CacheStatsMXBean`, cache `serializable` flag | present | omitted; `CacheStats.From(MemoryCache)` | no JMX; in-memory only |
+| `queueCallable` / `queueSupplier` | present | not ported | use `ExecuteAsync` / `Task.Run` |
+| Isolation key equality | compares tenant/principal objects | compares tenant/principal IDs | safer |
+| Circuit breaker | count-based sliding window, slow-call detection, half-open buffer | Polly time window (1 min, min. 2 calls, min. break 500 ms), no slow-call detection | Polly limits |
+| Resilience state on config change | first configuration per identifier wins | state rebuilt when the configuration for an identifier changes | simplicity |
+| Timeout | `shouldCancelRunningFuture` | always cancels via `CancellationToken`; sync operations that ignore the token cannot be interrupted | .NET cancellation model |
+| Resilience failures | everything wrapped in `ResilienceRuntimeException` | caller-token `OperationCanceledException` is never wrapped, retried or passed to the fallback | guide §5 |
+| Resilience cache | JCache expiry policies; `put(null)` throws | created/modified → absolute, accessed/touched → sliding; null results and zero duration are not cached | `MemoryCache` model |
+| Rate limiter / bulkhead | resilience4j | custom Polly strategies (rate limiter ports `AtomicRateLimiter`) | not in Polly.Core |
+| Token client retry | `Thread.sleep` | `Task.Delay` with cancellation | async |
+| Token client correlation id | MDC correlation id | `Activity.Current.TraceId`, else a new GUID | .NET tracing |
 
 Add a row whenever you deviate on purpose. Unrecorded deviations are bugs.
 
