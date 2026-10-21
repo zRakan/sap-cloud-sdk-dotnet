@@ -1,0 +1,20 @@
+# Normalize line endings to LF everywhere. Required: the generator golden tests compare generated code byte for byte.
+* text=auto eol=lf
+
+*.cs     text diff=csharp
+*.csproj text
+*.slnx   text
+*.props  text
+*.md     text diff=markdown
+*.edmx   text
+*.xml    text
+*.json   text
+*.yaml   text
+*.yml    text
+
+*.p12 binary
+*.pfx binary
+*.jks binary
+*.der binary
+*.png binary
+*.pdf binary

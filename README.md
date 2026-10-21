@@ -1,4 +1,11 @@
-# SAP Cloud SDK for .NET (port)
+# SAP Cloud SDK for .NET (unofficial port)
+
+[![CI](https://github.com/zRakan/sap-cloud-sdk-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/zRakan/sap-cloud-sdk-dotnet/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
+> **Unofficial.** This is a community project. It is not affiliated with, endorsed by, or supported by SAP SE. SAP and
+> SAP BTP are trademarks of SAP SE; see [NOTICE](NOTICE). For the official SDKs, see
+> [SAP Cloud SDK](https://sap.github.io/cloud-sdk/).
 
 A .NET 10 port of the [SAP Cloud SDK for Java](https://github.com/SAP/cloud-sdk-java), with the
 [JavaScript SDK](https://github.com/SAP/cloud-sdk-js) as reference for async API design. Both are Apache-2.0.
@@ -63,7 +70,14 @@ var products = await service.GetAllProduct()
 
 ## Build
 
+Requires the .NET 10 SDK (see `global.json`).
+
 ```bash
 dotnet build   # warnings are errors
 dotnet test
 ```
+
+## Contributing and license
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). Licensed under the [Apache License 2.0](LICENSE);
+this project is derived from SAP's Apache-2.0 SDKs, see [NOTICE](NOTICE) for attribution.
