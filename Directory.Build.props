@@ -8,14 +8,28 @@
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <!-- CA1848: LoggerMessage delegates. Debug logging is off the hot path; guard with IsEnabled instead. -->
     <NoWarn>$(NoWarn);CA1848</NoWarn>
-    <Authors>SAP Cloud SDK for .NET contributors</Authors>
+    <Authors>sap-cloud-sdk-dotnet contributors</Authors>
+    <Copyright>Copyright 2026 sap-cloud-sdk-dotnet contributors. Derived from the SAP Cloud SDK for Java (Apache-2.0).</Copyright>
+    <Description>Unofficial community port of the SAP Cloud SDK for Java to .NET. Not affiliated with or endorsed by SAP SE.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/zRakan/sap-cloud-sdk-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zRakan/sap-cloud-sdk-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>sap;btp;cloud-sdk;odata;destination;xsuaa;ias;unofficial</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix>preview</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsTestProject)' != 'true' And $(MSBuildProjectName.EndsWith('.Tests')) != 'true'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)' != 'true' And $(MSBuildProjectName.EndsWith('.Tests')) != 'true'">
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)NOTICE" Pack="true" PackagePath="/" Visible="false" />
+  </ItemGroup>
 
   <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <IsPackable>false</IsPackable>
