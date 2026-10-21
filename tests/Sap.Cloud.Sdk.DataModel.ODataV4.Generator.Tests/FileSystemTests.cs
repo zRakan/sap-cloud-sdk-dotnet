@@ -226,7 +226,7 @@ public sealed class FileSystemTests
         var result = new Dictionary<string, string>(StringComparer.Ordinal);
         foreach (var file in Directory.EnumerateFiles(output, "*.cs", SearchOption.AllDirectories))
         {
-            result[Path.GetRelativePath(output, file)] = await File.ReadAllTextAsync(file);
+            result[Path.GetRelativePath(output, file).Replace('\\', '/')] =await File.ReadAllTextAsync(file);
         }
 
         return result;
