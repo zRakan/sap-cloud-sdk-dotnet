@@ -1,3 +1,7 @@
+> [!CAUTION]
+> **Experimental, AI-generated code.** This project is an experiment in converting an entire codebase to another
+> language using AI/LLMs. Do not use it in production systems unless you have reviewed the code and know what you're doing.
+
 # SAP Cloud SDK for .NET (unofficial port)
 
 [![CI](https://github.com/zRakan/sap-cloud-sdk-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/zRakan/sap-cloud-sdk-dotnet/actions/workflows/ci.yml)
