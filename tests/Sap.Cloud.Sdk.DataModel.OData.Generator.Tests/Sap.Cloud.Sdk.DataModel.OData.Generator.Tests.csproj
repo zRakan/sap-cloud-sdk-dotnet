@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Sap.Cloud.Sdk.DataModel.OData.Generator\Sap.Cloud.Sdk.DataModel.OData.Generator.csproj" />
     <!-- Generated code is compiled in memory against the runtime library in the tests. -->
     <ProjectReference Include="..\..\src\Sap.Cloud.Sdk.DataModel.OData.Core\Sap.Cloud.Sdk.DataModel.OData.Core.csproj" />
