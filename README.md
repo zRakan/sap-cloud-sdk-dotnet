@@ -21,9 +21,10 @@ A .NET 10 port of the [SAP Cloud SDK for Java](https://github.com/SAP/cloud-sdk-
 | `Sap.Cloud.Sdk.DataModel.OData.Core` | Typed OData v2 (VDM) runtime | `odata-core` |
 | `Sap.Cloud.Sdk.DataModel.ODataV4.Core` | Typed OData v4 (VDM) runtime | `odata-v4-core` |
 | `Sap.Cloud.Sdk.DataModel.FluentResult` | Generic JSON result elements | `fluent-result` |
+| `Sap.Cloud.Sdk.DataModel.OData.Generator(.Cli)`, `…ODataV4.Generator` | OData v2/v4 code generators, dotnet tool `sap-odata-generator` | `odata-generator`, `odata-v4-generator` |
 | `Sap.Cloud.Sdk.DataModel.OpenApi` | Kiota clients on SAP destinations ([docs/OPENAPI.md](docs/OPENAPI.md)) | `openapi-core`, `openapi-generator` |
 
-OData code generators (v2, v4) are in progress. RFC/JCo, SOAP and DWC are out of scope. Conventions, the module map and
+OData clients are generated with `sap-odata-generator` ([docs/ODATA_GENERATOR.md](docs/ODATA_GENERATOR.md)). RFC/JCo, SOAP and DWC are out of scope. Conventions, the module map and
 every intentional difference from the Java SDK are in [docs/PORTING_GUIDE.md](docs/PORTING_GUIDE.md).
 
 ## Usage

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Sap.Cloud.Sdk.DataModel.OData.Generator.Cli</RootNamespace>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>sap-odata-generator</ToolCommandName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sap.Cloud.Sdk.DataModel.OData.Generator\Sap.Cloud.Sdk.DataModel.OData.Generator.csproj" />
+    <ProjectReference Include="..\Sap.Cloud.Sdk.DataModel.ODataV4.Generator\Sap.Cloud.Sdk.DataModel.ODataV4.Generator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Sap.Cloud.Sdk.DataModel.OData.Generator.Cli.Tests" />
+  </ItemGroup>
+
+</Project>

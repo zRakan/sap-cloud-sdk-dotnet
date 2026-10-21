@@ -28,7 +28,7 @@ Secondary reference for async API shapes and the shared OData layer: [`SAP/cloud
 | `datamodel/odata-client` | `Sap.Cloud.Sdk.DataModel.OData.Client` | ✅ ported |
 | `datamodel/odata/odata-core` (v2) | `Sap.Cloud.Sdk.DataModel.OData.Core` | ✅ ported |
 | `datamodel/odata-v4/odata-v4-core` | `Sap.Cloud.Sdk.DataModel.ODataV4.Core` | ✅ ported |
-| OData generators (v2, v4) | `Sap.Cloud.Sdk.DataModel.OData.Generator` | ⏳ |
+| `datamodel/odata/odata-generator`, `odata-v4/odata-v4-generator` (+ `odata-generator-utility`) | `Sap.Cloud.Sdk.DataModel.OData.Generator`, `…ODataV4.Generator`, CLI `…OData.Generator.Cli` (`sap-odata-generator`) | ✅ ported (see `docs/ODATA_GENERATOR.md`) |
 
 **Out of scope:** RFC/JCo, SOAP, DWC/Megaclite, ZTIS, FIPS sample, Apache HttpClient 4 modules, the duplicated
 `odata-client-apache-httpclient5`, Spring archetypes, Maven plugins.
@@ -218,6 +218,15 @@ public static class XyzAccessor
 | OData deserialization and custom fields | custom fields stay marked as changed | change tracking reset for all fields | consistency |
 | OData JSON leniency | Gson tolerates trailing data | rejected | STJ strictness |
 | OData Calendar converters | `Calendar` | `DateTimeOffset` (UTC) | no `Calendar` |
+| Generator EDMX parsing / code emission | Olingo + codemodel | `System.Xml.Linq` + an indentation-aware writer | no Java dependencies |
+| Generator CLI / Maven plugin | separate CLI per version, Maven plugin | one dotnet tool `sap-odata-generator v2\|v4` | .NET tooling |
+| Generated names | Java conventions, navigation `to` prefix, `FIELD` constants | PascalCase, no `to` prefix, `Fields` nested class; v2 complex types go through the naming strategy, v4 complex/enum types keep EDM names | C# conventions |
+| Service name mappings | `.packageName` / `.className` | `.className` and `.namespaceName` (`.packageName` ignored) | namespaces |
+| Generator `GenerateVersionReference` | on by default | off by default | deterministic output |
+| Generator annotation strategies, metadata JSON, v2 `keepExistingSignatures` | present | not ported | no Lombok/annotations to customize; JSON metadata unused in .NET |
+| Deprecated services | `@Deprecated` | `[Obsolete]` + per-file `#pragma warning disable CS0618` | C# |
+| v4 singletons, stream/geography properties, enum-returning operations | supported | skipped with a warning | not in the v4 runtime yet |
+| Generator failures | a failing file may leave partial output | a failing service writes nothing; other files continue | atomic output |
 
 Add a row whenever you deviate on purpose. Unrecorded deviations are bugs.
 
