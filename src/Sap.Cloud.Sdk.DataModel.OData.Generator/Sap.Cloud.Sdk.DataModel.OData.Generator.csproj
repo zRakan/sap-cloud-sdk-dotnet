@@ -2,11 +2,8 @@
 
   <PropertyGroup>
     <RootNamespace>Sap.Cloud.Sdk.DataModel.OData.Generator</RootNamespace>
+    <Description>Code generator that turns OData V2 service metadata (EDMX) into typed C# classes for Sap.Cloud.Sdk.DataModel.OData.Core.</Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Sap.Cloud.Sdk.CloudPlatform.Core\Sap.Cloud.Sdk.CloudPlatform.Core.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="Sap.Cloud.Sdk.DataModel.OData.Generator.Tests" />

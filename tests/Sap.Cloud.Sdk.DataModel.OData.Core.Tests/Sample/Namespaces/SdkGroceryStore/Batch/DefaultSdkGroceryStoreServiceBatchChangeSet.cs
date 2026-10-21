@@ -55,5 +55,4 @@ public class DefaultSdkGroceryStoreServiceBatchChangeSet :
 
     /// <inheritdoc />
     public ISdkGroceryStoreServiceBatchChangeSet UpdateOpeningHours(OpeningHours openingHours) => AddRequestUpdate(_service.UpdateOpeningHours, openingHours);
-
 }
