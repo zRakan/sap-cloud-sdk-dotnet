@@ -18,36 +18,46 @@ public interface ISdkGroceryStoreServiceBatchChangeSet :
     IFluentHelperBatchEndChangeSet<ISdkGroceryStoreServiceBatch>
 {
     /// <summary>Creates a Customer in the change set.</summary>
+    /// <param name="customer">The Customer.</param>
     ISdkGroceryStoreServiceBatchChangeSet CreateCustomer(Customer customer);
 
     /// <summary>Creates a Product in the change set.</summary>
+    /// <param name="product">The Product.</param>
     ISdkGroceryStoreServiceBatchChangeSet CreateProduct(Product product);
 
     /// <summary>Updates a Product in the change set.</summary>
+    /// <param name="product">The Product.</param>
     ISdkGroceryStoreServiceBatchChangeSet UpdateProduct(Product product);
 
     /// <summary>Creates a Receipt in the change set.</summary>
+    /// <param name="receipt">The Receipt.</param>
     ISdkGroceryStoreServiceBatchChangeSet CreateReceipt(Receipt receipt);
 
     /// <summary>Creates a Address in the change set.</summary>
+    /// <param name="address">The Address.</param>
     ISdkGroceryStoreServiceBatchChangeSet CreateAddress(Address address);
 
     /// <summary>Updates a Address in the change set.</summary>
+    /// <param name="address">The Address.</param>
     ISdkGroceryStoreServiceBatchChangeSet UpdateAddress(Address address);
 
     /// <summary>Deletes a Address in the change set.</summary>
+    /// <param name="address">The Address.</param>
     ISdkGroceryStoreServiceBatchChangeSet DeleteAddress(Address address);
 
     /// <summary>Creates a Shelf in the change set.</summary>
+    /// <param name="shelf">The Shelf.</param>
     ISdkGroceryStoreServiceBatchChangeSet CreateShelf(Shelf shelf);
 
     /// <summary>Updates a Shelf in the change set.</summary>
+    /// <param name="shelf">The Shelf.</param>
     ISdkGroceryStoreServiceBatchChangeSet UpdateShelf(Shelf shelf);
 
     /// <summary>Deletes a Shelf in the change set.</summary>
+    /// <param name="shelf">The Shelf.</param>
     ISdkGroceryStoreServiceBatchChangeSet DeleteShelf(Shelf shelf);
 
     /// <summary>Updates a OpeningHours in the change set.</summary>
+    /// <param name="openingHours">The OpeningHours.</param>
     ISdkGroceryStoreServiceBatchChangeSet UpdateOpeningHours(OpeningHours openingHours);
-
 }
