@@ -14,4 +14,10 @@
     <ProjectReference Include="..\..\src\Sap.Cloud.Sdk.DataModel.ODataV4.Core\Sap.Cloud.Sdk.DataModel.ODataV4.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The golden test compares the generator output with the sample of the runtime library tests. -->
+    <None Include="..\Sap.Cloud.Sdk.DataModel.ODataV4.Core.Tests\Sample\**" Link="Sample\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
